@@ -74,6 +74,8 @@ public class UsuariosRepository {
         return usuarios;
     }
 
+
+
     public Usuarios BusquedaId(Long id) {
         
         String sql = "SELECT * FROM USUARIOS WHERE id = ?";
@@ -98,4 +100,45 @@ public class UsuariosRepository {
             
         return usuario;
 }
+
+
+    public boolean actualizarUsuario(Long id, String nuevoNombre, Long nuevaEdad) {
+
+        String sql = "UPDATE USUARIOS SET NOMBRE = ?, EDAD = ? WHERE ID = ?";
+
+        try (Connection connection = Conexion.getConnection();
+            PreparedStatement resultSet = connection.prepareStatement(sql)) {
+
+             resultSet.setLong(1, id);
+             resultSet.setString(2, nuevoNombre);
+             resultSet.setLong(3, nuevaEdad);
+        return resultSet.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 }
+
+public boolean EliminarUsuario(Long id) {
+
+    String sql = "DELETE FROM USUARIOS WHERE ID = ?";
+
+    try (Connection connection = Conexion.getConnection();
+         PreparedStatement resultSet = connection.prepareStatement(sql)) {
+
+        resultSet.setLong(1, id); 
+
+        return resultSet.executeUpdate() > 0;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+}
+
+
+
+
